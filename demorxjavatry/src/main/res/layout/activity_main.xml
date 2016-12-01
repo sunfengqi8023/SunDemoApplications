@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.mr_sun.demorxjavatry.MainActivity">
+
+    <TextView
+        android:id="@+id/tv_justtitle"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="Hello Retrofit!" />
+    <Button
+        android:id="@+id/btn_tijiao"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="提交Retrofit"
+        android:layout_below="@+id/tv_justtitle"/>
+    <Button
+        android:id="@+id/btn_tijiao_gson"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="提交Retrofit+gson"
+        android:layout_below="@+id/btn_tijiao"/>
+    <Button
+        android:id="@+id/btn_tijiao_rxjava"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="提交++rxjava"
+        android:layout_below="@+id/btn_tijiao_gson"/>
+    <Button
+        android:id="@+id/btn_tijiao_mvp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="提交MVP"
+        android:layout_below="@+id/btn_tijiao_rxjava"/>
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_tijiao_mvp"/>
+</RelativeLayout>
