@@ -1,0 +1,3 @@
+# SunDemoApplications
+工作中编写的demo
+其中：demoMvpLogin 按照mvp的模式通过soap登录webservices接口的登录;demorxjavatry 是rxjava+okhttpdemo demoWebservicess是通过ksoap2实现登录
