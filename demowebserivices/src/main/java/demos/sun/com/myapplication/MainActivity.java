@@ -40,13 +40,15 @@ public class MainActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.btn_ok:
 			
-			DialogUtils.startProgressDialog(MainActivity.this, "正在登录...");
+			DialogUtils.startProgressDialog(MainActivity.this, "正在测试...");
 			
-			WebServiceUtil.login("20150001@7779", "f379eaf3c831b04de153469d1bec345e", new WebServiceUtil.WebServiceCallBack() {
+			WebServiceUtil.login("34134123", "1234123412341", new WebServiceUtil.WebServiceCallBack() {
 				
 				@Override
 				public void callBack(SoapObject result) {
-						final Object obj = result.getProperty(0);
+
+					Log.v(TAG,"result:"+result.toString());
+					final Object obj = result.getProperty(0);
 						JsonUtils.parseUstLogin(obj.toString(), new JsonUtils.ResultCallBack() {
 							
 							@Override

@@ -21,9 +21,10 @@ import java.util.Map;
 
 public class WebServiceUtil {
     // 登录注册的nameSpace
-    public static String loginPoint = "http://suntuhao:8088" + "/services/loginService";
+    //public static String loginPoint = "http://suntuhao:8088" + "/services/loginService";
+    public static String loginPoint = "http://aaes.artron.net/dispService/MemberCenter.asmx?wsdl";
 
-    public static String nameSpace = "http://webservice.im.boyuyun.com/";
+    public static String nameSpace = "http://www.artron.net/";
 
     /**
      * 回调函数接口声明
@@ -45,39 +46,38 @@ public class WebServiceUtil {
                 rpc.addProperty(entry.getKey(), entry.getValue());
             }
         }
-
         final SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER10);
         new MarshalBase64().register(envelope);
         //添加的额外的认证头部
         //envelope.headerOut = getHeader(nameSpace);
         envelope.bodyOut = rpc;
-        envelope.dotNet = false;
+        envelope.dotNet = true;
         envelope.setOutputSoapObject(rpc);
-
         //重新设置了超时时间为15s
-        //final HttpTransportSE transport = new HttpTransportSE(endPoint, 15000);
-        final HttpsTransportSE transport = new HttpsTransportSE("16m09v9725.iask.in", 8088, "/services/loginService", 15000);
+        SSLConection.allowAllSSL();
+        final HttpTransportSE transport = new HttpTransportSE(endPoint, 15000);
+
+       /* final HttpsTransportSE transport = new HttpsTransportSE("yuming", 9018, "/services/loginService", 15000);
         try {
             ((HttpsServiceConnectionSE) transport.getServiceConnection()).setSSLSocketFactory(sunApplication.socketFactory);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
+        }*/
+        //开了一个线程来执行网络访问，访问的结果通过回调接口返回
         Runnable runable = new Runnable() {
             @Override
             public void run() {
                 SoapObject resultsRequestSOAP = null;
                 try {
-                    //不为空就报类型转换错误""
-                    transport.call("", envelope);
-
+                    //亲测java后台不为空就报类型转换错误"",需要配合   envelope.dotNet = false;
+                    //亲测.net后台,入参为nameSpace+method,需要配合   envelope.dotNet = true;
+                    transport.call("http://www.artron.net/"+method, envelope);
                     if (envelope.getResponse() != null) {
                         resultsRequestSOAP = (SoapObject) envelope.bodyIn;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
-
                     webServiceCallBack.callBack(resultsRequestSOAP);
                 }
 
@@ -88,19 +88,14 @@ public class WebServiceUtil {
     }
 
 
-    public static void login(String username, String password, WebServiceCallBack webServiceCallBack) {
+    public static void login(String mid, String uid, WebServiceCallBack webServiceCallBack) {
         String endPoint;
         endPoint = loginPoint;
-        String methodName = "loginForMobile";
+        String methodName = "GetCart";
 
-        String encodeUserName = username;
-        String encodePassword = password;
-        if (TextUtils.isEmpty(encodePassword) || TextUtils.isEmpty(encodeUserName)) {
-            return;
-        }
         HashMap<String, Object> properties = new HashMap<String, Object>();
-        properties.put("userName", encodeUserName);
-        properties.put("pwd", encodePassword);
+        properties.put("mid", mid);
+        properties.put("uid", uid);
         webservicesHelp(methodName, nameSpace, endPoint, properties, webServiceCallBack);
     }
 
@@ -109,10 +104,10 @@ public class WebServiceUtil {
     private static Element[] getHeader(String nameSpace) {
         Element[] header = new Element[1];// 服务器过滤请求添加header
         header[0] = new Element().createElement(nameSpace, "SoapHeader");
-        Element element1 = new Element().createElement(nameSpace, "appMercharCode");
-        element1.addChild(Node.TEXT, "qerqwer");
+        Element element1 = new Element().createElement(nameSpace, "wedw");
+        element1.addChild(Node.TEXT, "qerawedweqwer");
         header[0].addChild(Node.ELEMENT, element1);
-        Element element2 = new Element().createElement(nameSpace, "key");
+        Element element2 = new Element().createElement(nameSpace, "key123");
         element2.addChild(Node.TEXT, "erqeqerqggwttytrrrrrr");
         header[0].addChild(Node.ELEMENT, element2);
         return header;
